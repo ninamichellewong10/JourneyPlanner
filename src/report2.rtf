@@ -1,0 +1,102 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf840
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww23160\viewh15000\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf2 COMP261 Assignment 2 - Nina Wong\
+\
+
+\b0 On AStar search, does an AStar search to find the shortest path between two points selected by the mouse,\
+then highlights the segments and nodes(stops) in this path. The search avoids the oneway roads and\
+prints out outcome of findings. I have improved the output to being the total length of each road being covered, \
+Rather than the separate segment lengths in the road.\
+\
+On ArticulationPoints search, does an iterative search to find all of the articulation points in the loaded graph, \
+It then highlights all of the articulation points and outputs a message to the user of how many articulation points\
+Are in the graph.\
+\
+I used the heuristic in the location class for my estimate distance and I used the length of the segments to \
+Update the cost of each node when it is added to the fringe at the end of the search.\
+\
+I tested my program by printing out the searches and tracing back if the methods were making the\
+Correct paths. From the startNode to the end node for aStar. I also tested the articulation point search\
+By printing out cases and seeing if the node was removed, it would become an articulation point if it\
+Had a subtree. I also based success on if the number of articulation points was the same as the \
+Number in the handout.\
+\
+Completed until completion.
+\b \
+\
+AStar search pseudo code 
+\b0 \
+\
+Search AStar()\{\
+	redraw();\
+	\
+	if startnode or target node node or both == null, return;\
+\
+	initialise new fringe priority queue\
+	\
+	use heuristic to get estimated cost of start node to target node\
+	set startnode visited = true\
+\
+	offer startnode to fringe as a single element <firstNode, depth, root>;\
+	while (fringe is not empty)\
+		selected = fringe.poll\
+		retrieve actual node from selected\
+		if (selected had not been visited)\
+			visited = true\
+			set start former node to peek nodes previous node\
+			set start cost to selected cost\
+		\}\
+		if selected is targetNode break;\
+		\
+		for segment in start segments\{\
+			node neighbour = get Neighbour from segment \
+			Road = segments road\
+			if Road is oneway and segment.contains(startnode and endnode)\
+				do not go further, road is one way\
+			\}\
+			determine if the neighbour is the startnode or targetnode node of the segment\
+\pard\pardeftab720\partightenfactor0
+\cf2 		    if neighbour is not visited\{\
+			double g = selected current cost + segment length\
+			double h = g + neighbour(heuristicDistance(targetnode\'92s location);\expnd0\expndtw0\kerning0
+ \
+			add a new element into the fringe; \
+		\}\
+		return targetNode\kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 		\}\
+	\}\
+\}\
+\
+
+\b Articulation Points search pseudo code
+\b0 \
+\
+iterate(firstNode, depth, root)\{\
+	Initialise fringe as a single element <firstNode, depth, root>;\
+	repeat until (fringe is empty) \{\
+	peekNode = peek <current*, depth*, parent*> from fringe;\
+	if current* depth equals \uc0\u8734 \
+		peekNode depth = current* depth\
+		current reachBack = current* depth\
+		current* children = all the neighbours of current* except parent* of current*;\
+	\}\
+	if current* children is not empty\{\
+		get a child from children(current*) and remove it from children(current*);\
+		if (depth(child)	< \uc0\u8734 ) then reachBack(n*) = min(depth(child),			reachBack(current*));\
+		else push	<child, depth*+1, current*>  into	stack;\
+	\}\
+	if n* does not equal firstNode\
+			parent* depth = min(current* reachBack, parent* reachBack);\
+		if current* reachBack >= parent* depth then add parent* into artPoints;\
+		\}\
+	\}\
+	remove <current*,	depth*,	parent*>	from	stack;\
+    \}\
+\}\
+}
